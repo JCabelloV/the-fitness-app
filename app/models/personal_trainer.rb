@@ -1,2 +1,0 @@
-class PerosnalTrainerRecord < AplicationRecord
-end
