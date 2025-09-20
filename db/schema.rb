@@ -10,11 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_19_161552) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_19_163610) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
+  create_table "schedules_tables", force: :cascade do |t|
+    t.datetime "horario"
+    t.string "status"
+    t.string "capacity"
+    t.bigint "user_id"
+    t.bigint "trainer_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["trainer_id"], name: "index_schedules_tables_on_trainer_id"
+    t.index ["user_id"], name: "index_schedules_tables_on_user_id"
+  end
+
   create_table "trainers", force: :cascade do |t|
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.integer "rut", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "user_tables", force: :cascade do |t|
     t.string "first_name", null: false
     t.string "last_name", null: false
     t.integer "rut", null: false
