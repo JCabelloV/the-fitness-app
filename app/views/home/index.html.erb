@@ -1,0 +1,64 @@
+<!-- app/views/home/index.html.erb -->
+<div class="container" style="max-width: 980px; margin: 0 auto; padding: 1rem;">
+  <!-- Hero -->
+  <section style="padding: 1.5rem 0;">
+    <h1 style="margin: 0 0 .25rem 0;">Gimnasio — Entrenamientos Personalizados</h1>
+    <p style="margin: 0; color: #666;">
+      Reserva tu sesión individual o en dupla con tu trainer.
+    </p>
+  </section>
+
+  <!-- Filtros -->
+  <section style="margin: 1rem 0 1.5rem;">
+    <%= form_with url: root_path, method: :get, local: true do |f| %>
+      <div style="display: grid; grid-template-columns: 1fr 1fr auto; gap: .75rem; align-items: end;">
+        <div>
+          <label>Fecha</label>
+          <%= date_field_tag :date, params[:date], class: "input" %>
+        </div>
+        <div>
+          <label>Trainer</label>
+          <%= select_tag :trainer_id,
+                options_for_select([["Todos", ""]] + @trainers.map { |t| ["#{t.first_name} #{t.last_name}", t.id] }, params[:trainer_id]),
+                class: "input" %>
+        </div>
+        <div>
+          <%= submit_tag "Filtrar", class: "btn" %>
+        </div>
+      </div>
+    <% end %>
+  </section>
+
+  <!-- Listado de horarios -->
+  <section>
+    <% if @schedules.any? %>
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem;">
+        <% @schedules.each do |schedule| %>
+          <%= render "schedule_card", schedule: schedule %>
+        <% end %>
+      </div>
+    <% else %>
+      <p>No hay horarios para los filtros seleccionados.</p>
+    <% end %>
+  </section>
+
+  <!-- Accesos rápidos -->
+  <section style="margin: 2rem 0;">
+    <div style="display:flex; gap:.75rem; flex-wrap:wrap;">
+      <%= link_to "Mis reservas", bookings_path, class: "btn" %>
+      <%= link_to "Ver todos los horarios", schedules_path, class: "btn-secondary" %>
+      <!-- Si quieres: mostrar este botón solo a admin/trainer -->
+      <%= link_to "Crear horarios", new_schedule_path, class: "btn-secondary" rescue nil %>
+    </div>
+  </section>
+</div>
+
+<style>
+  .btn { padding: .6rem 1rem; border-radius: .5rem; border: 1px solid #333; text-decoration: none; display:inline-block; }
+  .btn-secondary { padding: .6rem 1rem; border-radius: .5rem; border: 1px solid #ccc; background: #f7f7f7; text-decoration: none; display:inline-block; }
+  .badge { font-size: .8rem; padding: .2rem .5rem; border-radius: .4rem; border: 1px solid #ddd; background: #fafafa; }
+  .card { border: 1px solid #eee; border-radius: .75rem; padding: 1rem; }
+  .muted { color: #777; }
+  .input { width: 100%; padding: .5rem .6rem; border: 1px solid #ccc; border-radius: .5rem; }
+</style>
+
