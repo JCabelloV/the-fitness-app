@@ -1,0 +1,24 @@
+<!-- app/views/home/_schedule_card.html.erb -->
+<% booked = schedule.booking.present? %>
+<% trainer = schedule.trainer %>
+
+<div class="card">
+  <div style="display:flex; justify-content:space-between; align-items:center;">
+    <strong><%= l(schedule.horario, format: :long) rescue schedule.horario %></strong>
+    <span class="badge"><%= schedule.status.presence || "disponible" %></span>
+  </div>
+
+  <div class="muted" style="margin:.25rem 0 .75rem;">
+    Trainer: <%= [trainer&.first_name, trainer&.last_name].compact.join(" ") %>
+  </div>
+
+  <% if booked %>
+    <div style="display:flex; gap:.5rem; align-items:center;">
+      <span class="badge">Ocupado</span>
+      <%= link_to "Ver reserva", booking_path(schedule.booking), class: "btn-secondary" rescue "" %>
+    </div>
+  <% else %>
+    <%= link_to "Reservar", new_booking_path(schedule_id: schedule.id), class: "btn" %>
+  <% end %>
+</div>
+
