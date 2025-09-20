@@ -1,2 +1,2 @@
-class  TrainerRecord < ApplicationRecord
+class  Trainer < ApplicationRecord
 end

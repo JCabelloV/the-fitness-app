@@ -1,7 +1,7 @@
 class CreateBookingsTable < ActiveRecord::Migration[8.0]
   def change
     create_table :bookings do |t|
-      t.references :schedule, null: false, foreign_key: true
+      t.references :schedules_table, null: false, foreign_key: true
       t.references :trainer, null: false, foreign_key: true
 
       t.integer :kind, null: false, default: 0
