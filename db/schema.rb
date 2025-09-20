@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_20_033223) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_20_041307) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -24,14 +24,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_20_033223) do
   end
 
   create_table "bookings", force: :cascade do |t|
-    t.bigint "schedules_table_id", null: false
+    t.bigint "schedule_id", null: false
     t.bigint "trainer_id", null: false
     t.integer "kind", default: 0, null: false
     t.integer "status", default: 0, null: false
     t.integer "price", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["schedules_table_id"], name: "index_bookings_on_schedules_table_id"
+    t.index ["schedule_id"], name: "index_bookings_on_schedule_id_unique", unique: true
     t.index ["trainer_id"], name: "index_bookings_on_trainer_id"
   end
 
@@ -66,6 +66,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_20_033223) do
 
   add_foreign_key "booking_participants", "bookings"
   add_foreign_key "booking_participants", "users"
-  add_foreign_key "bookings", "schedules", column: "schedules_table_id"
+  add_foreign_key "bookings", "schedules"
   add_foreign_key "bookings", "trainers"
 end
