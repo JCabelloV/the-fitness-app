@@ -1,2 +1,2 @@
-class ScheduleRecord < ApplicationRecord
+class Schedule < ApplicationRecord
 end
